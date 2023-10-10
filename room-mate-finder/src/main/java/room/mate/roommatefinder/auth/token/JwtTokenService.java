@@ -9,6 +9,7 @@ import room.mate.roommatefinder.auth.dto.Credentials;
 import room.mate.roommatefinder.model.User;
 
 import javax.crypto.SecretKey;
+import java.util.Date;
 
 
 @Service
@@ -16,6 +17,7 @@ import javax.crypto.SecretKey;
 public class JwtTokenService implements TokenService {
 
     SecretKey key = Keys.hmacShaKeyFor("fuad-elmir-sehriyar-rufat-resad-odlar-yurdu-uni".getBytes());
+
 
     @Override
     public Token createToken(User user, Credentials creds) {

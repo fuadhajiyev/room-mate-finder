@@ -8,6 +8,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import room.mate.roommatefinder.auth.exception.AuthenticationException;
 
 import java.util.stream.Collectors;
 
@@ -48,5 +49,14 @@ public class ErrorHandler {
         return ResponseEntity.status(404).body(apiError);
     }
 
+
+    @ExceptionHandler(AuthenticationException.class)
+    ResponseEntity<ApiError> handleEntityNotFoundException(AuthenticationException exception, HttpServletRequest request){
+        ApiError apiError = new ApiError();
+        apiError.setPath(request.getRequestURI());
+        apiError.setMessage("Credentials is wrong");
+        apiError.setStatus(401);
+        return ResponseEntity.status(404).body(apiError);
+    }
 
 }

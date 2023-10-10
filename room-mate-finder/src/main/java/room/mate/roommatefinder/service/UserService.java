@@ -74,6 +74,8 @@ public class UserService {
 
         User inDB = getUser(id);
         inDB.setUsername(userUpdate.username());
+        inDB.setGender(userUpdate.gender());
+
         return userRepository.save(inDB);
 
     }

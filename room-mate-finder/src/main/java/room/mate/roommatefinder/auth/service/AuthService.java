@@ -7,9 +7,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import room.mate.roommatefinder.auth.dto.AuthResponse;
 import room.mate.roommatefinder.auth.dto.Credentials;
+import room.mate.roommatefinder.auth.exception.AuthenticationException;
 import room.mate.roommatefinder.auth.token.Token;
 import room.mate.roommatefinder.auth.token.TokenService;
 import room.mate.roommatefinder.dto.UserDTO;
+import room.mate.roommatefinder.error.AuthorizationException;
 import room.mate.roommatefinder.model.User;
 import room.mate.roommatefinder.service.UserService;
 
@@ -27,10 +29,10 @@ public class AuthService {
 
     public AuthResponse authenticate(Credentials creds) {
         User inDB = userService.findByEmail(creds.email());
-        if (inDB == null) throw new RuntimeException("not found user email");
+        if (inDB == null) throw new AuthenticationException();
 
         if (!passwordEncoder.matches(creds.password(), inDB.getPassword()))
-            throw new RuntimeException("credentials is wrong");
+            throw new AuthenticationException();
 
 
         Token token = tokenService.createToken(inDB, creds);
